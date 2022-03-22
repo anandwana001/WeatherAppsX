@@ -35,7 +35,7 @@ This project use multiple libraries to bring easy way of implementation
 
 ## Screenshot 📱
 <p>
-<img src="https://github.com/anandwana001/WeatherAppsX/blob/main/screenshots/app_screenshot.png" height=450 width=230 />
+<img src="https://github.com/anandwana001/WeatherAppsX/blob/master/screenshot/app_screenshot.png" height=450 width=230 />
 </p>
 
 ## Contact 🔗
