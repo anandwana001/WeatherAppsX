@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <data>
+
+    <variable
+      name="viewModel"
+      type="com.anandwana001.weatherappsx.ui.ForecastItemViewModel" />
+  </data>
+  <!-- layout_marginStart and layout_marginEnd is not supported in API lower than 17 -->
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/forecastItem"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <TextView
+      android:id="@+id/dayTextView"
+      style="@style/ForecastItem"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@{viewModel.day}"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@+id/tempTextView"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="Tuesday" />
+
+    <TextView
+      android:id="@+id/tempTextView"
+      style="@style/ForecastItem"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@{String.format(@string/currentTemperature, viewModel.temperature)}"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="24 C" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <data>
+
+    <variable
+      name="viewModel"
+      type="com.anandwana001.weatherappsx.ui.HomeViewModel" />
+
+    <import type="android.view.View" />
+  </data>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@{viewModel.isFailure ? @color/background_error : @color/app_background}"
+    tools:context=".ui.HomeActivity">
+
+    <TextView
+      android:id="@+id/todayTemperatureTextView"
+      style="@style/Heading.h1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="56dp"
+      android:text="@{String.format(@string/currentTemperature, viewModel.currentTemp)}"
+      android:visibility="@{viewModel.isLoaded &amp; !viewModel.isFailure ? View.VISIBLE : View.GONE}"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="20&#xb0;" />
+
+    <TextView
+      android:id="@+id/locationTextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:fontFamily="@font/roboto_thin"
+      android:lineSpacingExtra="52sp"
+      android:text="@{viewModel.cityName}"
+      android:textColor="@color/subheading"
+      android:textSize="36sp"
+      android:visibility="@{viewModel.isLoaded &amp; !viewModel.isFailure ? View.VISIBLE : View.GONE}"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/todayTemperatureTextView"
+      tools:text="Bangalore" />
+
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/forecastList"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_marginTop="62dp"
+      android:background="@color/white"
+      android:clipToPadding="false"
+      android:elevation="8dp"
+      android:paddingStart="16dp"
+      android:paddingTop="16dp"
+      android:paddingEnd="16dp"
+      android:visibility="@{viewModel.isLoaded &amp; !viewModel.isFailure ? View.VISIBLE : View.GONE}"
+      app:data="@{viewModel.forecastList}"
+      app:itemDecorator="@{@drawable/divider}"
+      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/locationTextView"
+      app:layout_constraintVertical_bias="0.0"
+      tools:listitem="@layout/forecast_item" />
+    <!-- textAlignment not support SDk 16, require layout_gravity--><TextView
+    android:id="@+id/failureTextView"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_margin="8dp"
+    android:fontFamily="@font/roboto_thin"
+    android:text="@string/error_message"
+    android:textAlignment="center"
+    android:textColor="@color/white"
+    android:textSize="54sp"
+    android:visibility="@{viewModel.isFailure ? View.VISIBLE : View.GONE}"
+    app:layout_constraintBottom_toTopOf="@+id/retryButton"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_chainStyle="packed"
+    tools:text="@string/error_message" />
+
+    <Button
+      android:id="@+id/retryButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="44dp"
+      android:background="@color/dark_grey"
+      android:onClick="@{viewModel::retryDataFetch}"
+      android:text="@string/retry"
+      android:textAllCaps="true"
+      android:textColor="@color/white"
+      android:visibility="@{viewModel.isFailure ? View.VISIBLE : View.GONE}"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/failureTextView" />
+
+    <ProgressBar
+      android:id="@+id/progressBar"
+      style="?android:attr/progressBarStyle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:visibility="@{viewModel.isLoaded || viewModel.isFailure ? View.GONE : View.VISIBLE}"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
